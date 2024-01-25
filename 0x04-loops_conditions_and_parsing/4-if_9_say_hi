@@ -4,7 +4,7 @@ n=0
 while ((a < 10))
 do
     echo "Best School"
-    if ((a == 8))
+    if (($a == 8))
     then
         echo "Hi"
     fi
