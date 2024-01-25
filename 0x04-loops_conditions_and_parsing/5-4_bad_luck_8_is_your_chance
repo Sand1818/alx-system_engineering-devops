@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#prints "bad luck" 4th, "good luck" 8th loop then "Best School"
+a=1
+while ((a <= 10))
+do
+
+    if ((a == 4))
+    then
+        echo "bad luck"
+    elif ((a == 8))
+    then
+        echo "good luck"
+    else
+        echo "Best School"
+    fi
+    a=$((a+1))
+done
