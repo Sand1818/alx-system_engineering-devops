@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Script intall apache
+sudo service apache2 start
