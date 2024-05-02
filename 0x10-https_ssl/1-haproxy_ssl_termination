@@ -1,0 +1,12 @@
+frontend lb-01
+    bind *:80
+    bind *:443 ssl crt /etc/letsencrypt/live/www.sand1818.tech/fullchain.pem
+    redirect scheme https if !{ ssl_fc }
+    mode http
+    default_backend servers
+
+backend servers
+    mode http
+    balance roundrobin
+    server 524895-web-01 54.237.106.175:80 check
+    server 524895-web-02 3.83.227.42:80 check
