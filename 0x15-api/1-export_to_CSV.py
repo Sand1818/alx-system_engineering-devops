@@ -10,19 +10,26 @@ import sys
 
 
 if __name__ == '__main__':
-    url = 'https://jsonplaceholder.typicode.com/users/' + sys.argv[1]
-    req = requests.get(url)
-    if req.status_code == 200:
-        username = req.json().get("username")
-        url2 = 'https://jsonplaceholder.typicode.com/todos'
-        r2 = requests.get(url2)
-        filename = sys.argv[1] + '.csv'
-        with open(filename, 'w') as f:
-            writ = csv.writer(f, quoting=csv.QUOTE_ALL, delimiter=',')
-            for item in r2.json():
-                if item.get("userId") == int(sys.argv[1]):
-                    line = [item.get("userId"),
-                            username,
-                            str(item.get("completed")),
-                            item.get('title')]
-                    writ.writerow(line)
+    arg1 = int(sys.argv[1])
+    url = f"https://jsonplaceholder.typicode.com/users/{arg1}/"
+    response = requests.get(url)
+
+    url2 = f"https://jsonplaceholder.typicode.com/todos?userId={arg1}"
+    response2 = requests.get(url2)
+
+    employee = response.json()
+    todo_ = response2.json()
+
+    total = len(todo_)
+
+    with open(f'{arg1}.csv', mode='w', newline='') as csv_file:
+        writ = csv.writer(csv_file, quoting=csv.QUOTE_NONNUMERIC)
+
+        for i in range(total):
+            line = []
+            line.append(str(arg1))
+            line.append(employee.get("username"))
+            line.append(str(todo_[i].get('completed')))
+            line.append(todo_[i].get("title"))
+
+            writ.writerow(line)

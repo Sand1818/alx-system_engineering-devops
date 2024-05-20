@@ -8,22 +8,22 @@ import sys
 
 
 if __name__ == "__main__":
-
-    user_id = sys.argv[1]
-    r = requests.get('https://jsonplaceholder.typicode.com/users/{}'.format(
-        user_id)
-        )
-    name = r.json()['name']
-    r = requests.get(
-            'https://jsonplaceholder.typicode.com/users/{}/todos'.format(
-                user_id)
-            )
-    total = len(r.json())
-    done = 0
-    for task in r.json():
-        if task['completed'] is True:
-            done += 1
-    print("Employee {} is done with tasks({}/{}):".format(name, done, total))
-    for task in r.json():
-        if task['completed'] is True:
-            print("\t {}".format(task['title']))
+    url1 = 'https://jsonplaceholder.typicode.com/users/' + sys.argv[1]
+    res = requests.get(url1)
+    name = res.json().get("name")
+    url2 = 'https://jsonplaceholder.typicode.com/todos'
+    res2 = requests.get(url2)
+    taskname = []
+    task = 0
+    complete = 0
+    for item in res2.json():
+        if item.get("userId") == int(sys.argv[1]):
+            task += 1
+            if item.get("completed") is True:
+                complete += 1
+                taskname.append(item.get("title"))
+    print("Employee {} is done with tasks({}/{}):".format(name,
+                                                          complete,
+                                                          task))
+    for i in taskname:
+        print("\t {}".format(i))
